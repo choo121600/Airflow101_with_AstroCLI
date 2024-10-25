@@ -9,6 +9,12 @@
 Airflow 101 with Astro CLI  
 Hands-on: 데일리 뉴스 요약 및 투자 조언 메시징 서비스 구축하기
 
+# 준비물
+- Python 3.10 이상
+- Docker Desktop
+- Astro CLI
+- code editor
+
 # 핸즈온 순서
 - 프로젝트 Clone
 - Astro CLI를 활용하여 Airflow 실행과 중지, 재시작
@@ -30,7 +36,7 @@ Hands-on: 데일리 뉴스 요약 및 투자 조언 메시징 서비스 구축�
 
 # 실행 방법
 1. Astro CLI 설치
-    - [Astro CLI 설치 가이드](https://www.astronomer.io/docs/cloud/stable/develop/cli-quickstart)
+    - [Astro CLI 설치 가이드](https://www.astronomer.io/docs/astro/cli/install-cli)
 2. Astro CLI로 Airflow 실행
     - `astro dev start`
 3. [http://localhost:8080](http://localhost:8080) 접속
