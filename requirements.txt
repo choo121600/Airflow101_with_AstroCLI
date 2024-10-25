@@ -1,6 +1,7 @@
 # Astro Runtime includes the following pre-installed providers packages: https://www.astronomer.io/docs/astro/runtime-image-architecture#provider-packages
-yfinance
-openai 
-pandas 
-requests
-apache-airflow-providers-slack
+# requirements.txt
+yfinance==0.2.46
+openai==1.52.2
+pandas==2.1.4
+requests==2.32.3
+apache-airflow-providers-slack==8.9.0

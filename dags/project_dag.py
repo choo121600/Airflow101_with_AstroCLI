@@ -6,7 +6,6 @@ from airflow.utils.email import send_email
 import pandas as pd
 import yfinance as yf
 import os
-import logging
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 FROM_EMAIL = os.getenv('AIRFLOW__SMTP__SMTP_MAIL_FROM')
