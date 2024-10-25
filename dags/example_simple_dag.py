@@ -9,7 +9,7 @@ default_args = {
 }
 
 # DAG 인스턴스 생성
-dag = DAG('example_dag', default_args=default_args, schedule_interval='@daily')
+dag = DAG('example_simple_dag2', default_args=default_args, schedule_interval='@daily')
 
 # 태스크 정의
 def start_task():

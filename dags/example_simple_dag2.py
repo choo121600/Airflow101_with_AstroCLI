@@ -8,7 +8,7 @@ default_args = {
 }
 
 @dag(schedule_interval='@daily', default_args=default_args)
-def example_dag():
+def example_simple_dag():
     @task
     def start_task():
         print("DAG가 시작되었습니다.")
@@ -32,4 +32,4 @@ def example_dag():
 
     start >> t1 >> t2 >> end
 
-dag_instance = example_dag()
+dag_instance = example_simple_dag()
