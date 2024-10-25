@@ -1,48 +1,94 @@
-Overview
-========
+# 개요
 
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+2024년 10월 26일 토요일, 부산에서 열린 "Python PIP 배포 실습 및 Airflow 101 with Astro CLI Hands-on" 세미나 중의 "Airflow 101 with Astro CLI"의 자료입니다.
 
-Project Contents
-================
+# 발표자료
+[발표자료 보기](https://docs.google.com/presentation/d/1XXIk5Gv_Tut427IKsBzjIUPpkNp64jseWK1lc3uK3Lg/edit?usp=sharing)
 
-Your Astro project contains the following files and folders:
+# 자료 내용
+Airflow 101 with Astro CLI  
+Hands-on: 데일리 뉴스 요약 및 투자 조언 메시징 서비스 구축하기
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes one example DAG:
-    - `example_astronauts`: This DAG shows a simple ETL pipeline example that queries the list of astronauts currently in space from the Open Notify API and prints a statement for each astronaut. The DAG uses the TaskFlow API to define tasks in Python, and dynamic task mapping to dynamically print a statement for each astronaut. For more on how this DAG works, see our [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
+# 핸즈온 순서
+- 프로젝트 Clone
+- Astro CLI를 활용하여 Airflow 실행과 중지, 재시작
+- DAG를 작성하는 두 가지 방법
+- 실패, 성공시 알림을 보내는 DAG 만들기
+    - 준비물: Google 2단계 인증 만들기, Slack API 적용
+    - DAG 작성
+- 프로젝트 시작
+    - 준비물: Chat GPT Key 받아오기
+    - DAG 작성
 
-Deploy Your Project Locally
-===========================
+# DAG 예시 소스코드
+- dags
+    - example_simple_dag.py : 간단한 DAG 를 만드는 방법 1 예제
+    - example_simple_dag2.py : 간단한 DAG 를 만드는 방법 2 예제
+    - notification_example_dag.py : Slack과 Email로 알림을 보내는 DAG 예제
+    - project_dag.py : 뉴스 요약 및 투자 조언 메시징 서비스 구축 DAG
 
-1. Start Airflow on your local machine by running 'astro dev start'.
 
-This command will spin up 4 Docker containers on your machine, each for a different Airflow component:
+# 실행 방법
+1. Astro CLI 설치
+    - [Astro CLI 설치 가이드](https://www.astronomer.io/docs/cloud/stable/develop/cli-quickstart)
+2. Astro CLI로 Airflow 실행
+    - `astro dev start`
+3. [http://localhost:8080](http://localhost:8080) 접속
+4. .env 파일, airflow_settings.yaml 파일 작성
+5. DAG 활성화
+6. DAG 실행
 
-- Postgres: Airflow's Metadata Database
-- Webserver: The Airflow component responsible for rendering the Airflow UI
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- Triggerer: The Airflow component responsible for triggering deferred tasks
+# 주요 Astro CLI 명령어
+- `astro dev --help` : 도움말
+- `astro dev init` : Airflow 초기화
+- `astro dev start` : Airflow 실행
+- `astro dev stop` : Airflow 중지
+- `astro dev restart` : Airflow 재시작
+- `astro dev kill` : Airflow 강제 중지
 
-2. Verify that all 4 Docker containers were created by running 'docker ps'.
 
-Note: Running 'astro dev start' will start your project with the Airflow Webserver exposed at port 8080 and Postgres exposed at port 5432. If you already have either of those ports allocated, you can either [stop your existing Docker containers or change the port](https://www.astronomer.io/docs/astro/cli/troubleshoot-locally#ports-are-not-available-for-my-local-airflow-webserver).
 
-3. Access the Airflow UI for your local Airflow project. To do so, go to http://localhost:8080/ and log in with 'admin' for both your Username and Password.
+# .env 작성
+```
+# .env
+OPENAI_API_KEY="sk-xxxxxx"
 
-You should also be able to access your Postgres Database at 'localhost:5432/postgres'.
+AIRFLOW__SMTP__SMTP_HOST="smtp.gmail.com"
+AIRFLOW__SMTP__SMTP_PORT="587"
+AIRFLOW__SMTP__SMTP_SSL="False"
+AIRFLOW__SMTP__SMTP_USER="your-email"
+AIRFLOW__SMTP__SMTP_STARTTLS="True"
+AIRFLOW__SMTP__SMTP_MAIL_FROM="your-email"
+AIRFLOW__SMTP__SMTP_PASSWORD="google-2nd-password"
+```
 
-Deploy Your Project to Astronomer
-=================================
+# airflow_settings.yaml 작성
+```
+# airflow_settings.yaml
+airflow:
+  connections:
+    - conn_id: slack_connection_id
+      conn_type: HTTP
+      conn_host:
+      conn_schema:
+      conn_login:
+      conn_password: slack_webhook_url
+      conn_port:
+      conn_extra:
+  pools:
+    - pool_name:
+      pool_slot:
+      pool_description:
+  variables:
+    - variable_name:
+      variable_value:
+  configurations:
+    - section:
+    - key:
+    - value:
 
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
+```
 
-Contact
-=======
-
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+# 질문 및 문의
+- Airflow 한국사용자모임 포럼: [https://discourse.airflow-kr.org/](https://discourse.airflow-kr.org/)
+- Airflow 한국사용자모임 오픈카톡: [https://open.kakao.com/o/gM4hR8Pg](https://open.kakao.com/o/gM4hR8Pg)
